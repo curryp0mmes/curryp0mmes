@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Links</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;        /* Deep midnight blue */
+            --card-bg: #1e293b;        /* Slate blue */
+            --text-main: #f8fafc;      /* Near white */
+            --text-muted: #94a3b8;     /* Muted grey */
+            --accent-glow: #38bdf8;    /* Sky blue glow */
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            letter-spacing: -0.025em;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* The Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 24px;
+        }
+
+        /* Link Card Styling */
+        .link-card {
+            background: var(--card-bg);
+            padding: 24px 16px;
+            border-radius: 16px;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .link-card:hover {
+            transform: translateY(-8px);
+            background: #273549;
+            border-color: var(--accent-glow);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 
+                        0 0 15px rgba(56, 189, 248, 0.2);
+        }
+
+        /* Favicon Container */
+        .icon-wrapper {
+            width: 56px;
+            height: 56px;
+            /* background: rgba(0, 0, 0, 0.2); */
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .link-card img {
+            width: 80%;
+            image-rendering: -webkit-optimize-contrast; /* Keeps icons sharp */
+        }
+
+        .link-card span {
+            font-weight: 500;
+            font-size: 0.95rem;
+            text-align: center;
+            color: var(--text-main);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Welcome</h1>
+            <p class="subtitle">Quick access to the daily tools.</p>
+        </header>
+        
+        <div id="links-grid" class="grid">
+            </div>
+    </div>
+
+    <script>
+        // 1. YOUR ARRAY OF WEBSITES
+        const myWebsites = [
+            { name: "GitHub", url: "https://github.com/curryp0mmes" },
+            { name: "Gitlab", url: "https://gitlab2.informatik.uni-wuerzburg.de/dashboard/projects" },
+            { name: "Gmail", url: "https://mail.google.com" },
+            { name: "Maps", url: "https://maps.google.com" },
+            { name: "Gemini", url: "https://gemini.google.com" },
+            { name: "NotebookLM", url: "https://notebooklm.google.com" },
+            { name: "WueSpace", url: "https://go.wuespace.de/" }
+        ];
+
+        const grid = document.getElementById('links-grid');
+
+        function renderLinks() {
+            myWebsites.forEach(site => {
+                const card = document.createElement('a');
+                card.href = site.url;
+                card.className = 'link-card';
+                card.target = "_blank";
+                card.rel = "noopener noreferrer";
+
+                // Google S2 Favicon Service
+                // Format: https://www.google.com/s2/favicons?sz=64&domain=URL
+                const iconUrl = `https://www.google.com/s2/favicons?sz=128&domain=${site.url}`;
+
+                card.innerHTML = `
+                    <div class="icon-wrapper">
+                        <img src="${iconUrl}" alt="${site.name} icon">
+                    </div>
+                    <span>${site.name}</span>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        renderLinks();
+    </script>
+</body>
+</html>
