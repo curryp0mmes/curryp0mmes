@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-label="PCB system preview">
+  <rect width="1200" height="800" fill="#0f172a"/>
+  <rect x="150" y="90" width="900" height="620" rx="30" fill="#1e293b"/>
+  <rect x="220" y="170" width="760" height="460" rx="26" fill="#0d3d2e"/>
+  <g fill="none" stroke="#38bdf8" stroke-width="8" opacity="0.45">
+    <path d="M270 240h200v120h220v-90h180"/>
+    <path d="M260 520h300v-90h200v110h170"/>
+    <path d="M360 190v120h120v120h220"/>
+  </g>
+  <g fill="#f8fafc">
+    <circle cx="330" cy="240" r="18"/>
+    <circle cx="470" cy="360" r="16"/>
+    <circle cx="690" cy="360" r="14"/>
+    <circle cx="890" cy="270" r="18"/>
+    <circle cx="560" cy="520" r="17"/>
+    <circle cx="760" cy="540" r="14"/>
+  </g>
+  <text x="600" y="660" fill="#f8fafc" font-size="42" font-family="Inter, Arial, sans-serif" text-anchor="middle">Low-Power Sensor Node</text>
+</svg>

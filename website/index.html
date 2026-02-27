@@ -1,1 +1,157 @@
-Hello World!
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Portfolio of Simon, coding and hardware projects.">
+	<title>Simon | Portfolio</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="./css/tokens.css">
+	<link rel="stylesheet" href="./css/portfolio.css">
+</head>
+<body>
+	<nav class="top-nav">
+		<div class="container nav-inner">
+			<div class="brand">Simon<span>.</span></div>
+			<div class="nav-links">
+				<a href="#projects">Projects</a>
+				<a href="#skills">Skills</a>
+				<a href="#about">About</a>
+				<a href="#contact">Contact</a>
+			</div>
+		</div>
+	</nav>
+
+	<header class="hero container" id="top">
+		<div class="hero-grid">
+			<section class="panel">
+				<h1>I build software and hardware that ship.</h1>
+				<p class="tagline">
+					I design embedded systems, write full-stack tooling, and prototype products from schematic to polished UI.
+				</p>
+				<div class="cta-row">
+					<a class="btn btn-primary" href="#projects">See Projects</a>
+					<a class="btn btn-secondary" href="./links/">Daily Links</a>
+				</div>
+			</section>
+
+			<aside class="panel quick-stats" aria-label="Quick stats">
+				<div class="stat">
+					<h3>Main Focus</h3>
+					<p>Embedded Hardware Design</p>
+				</div>
+				<div class="stat">
+					<h3>Current Stack</h3>
+					<p>Rust & C/C++, TypeScript</p>
+				</div>
+				<div class="stat">
+					<h3>Location</h3>
+					<p>Würzburg, Germany</p>
+				</div>
+			</aside>
+		</div>
+	</header>
+
+	<main class="container">
+		<section class="section" id="projects">
+			<div class="section-head">
+				<h2 class="section-title">Featured Projects</h2>
+				<p class="section-subtitle">A mix of hardware products, software platforms, and integrated systems.</p>
+			</div>
+
+			<div class="projects-grid">
+				<article class="project-card">
+					<img src="./assets/project-vision.svg" alt="Vision guided robot project preview">
+					<div class="project-content">
+						<h3>Sensor Circuit for N2ORTH-3-Rocket</h3>
+						<p>Designed a custom PCB for highly dynamic data readouts of tank pressure and temperature.</p>
+						<div class="chips">
+							<span class="chip">KiCad</span>
+							<span class="chip">Rust</span>
+							<span class="chip">PCBA</span>
+						</div>
+					</div>
+				</article>
+
+				<article class="project-card">
+					<img src="./assets/project-pcb.svg" alt="Low power sensor node project preview">
+					<div class="project-content">
+						<h3>Antenna Tracker</h3>
+						<p>Built a mechanical antenna pointing device with autonomous tracking.</p>
+						<div class="chips">
+							<span class="chip">OnShape</span>
+							<span class="chip">Rust</span>
+							<span class="chip">Linux</span>
+						</div>
+					</div>
+				</article>
+
+				<article class="project-card">
+					<img src="./assets/project-dashboard.svg" alt="Live telemetry dashboard project preview">
+					<div class="project-content">
+						<h3>Telemetry Dashboard</h3>
+						<p>Created a real-time dashboard for rocket launches and their sensor data.</p>
+						<div class="chips">
+							<span class="chip">TypeScript</span>
+							<span class="chip">Bun</span>
+							<span class="chip">NATS</span>
+						</div>
+					</div>
+				</article>
+			</div>
+		</section>
+
+		<section class="section" id="skills">
+			<div class="two-col">
+				<article class="panel">
+					<div class="section-head">
+						<h2 class="section-title">Skills</h2>
+						<p class="section-subtitle">Tools and technologies I use regularly.</p>
+					</div>
+					<ul class="list">
+						<li>Embedded firmware architecture and in-depth RTOS Knowledge (Embassy, RODOS)</li>
+						<li>PCB design, bring-up, and hardware debugging</li>
+						<li>Web apps with modern TypeScript stacks</li>
+					</ul>
+				</article>
+
+				<article class="panel" id="about">
+					<div class="section-head">
+						<h2 class="section-title">About</h2>
+						<p class="section-subtitle">From idea to functional prototype.</p>
+					</div>
+					<p>
+						I enjoy bridging software and electronics: defining requirements, building prototypes, testing in real conditions, and iterating fast.
+						My projects usually combine robust backend logic with practical hardware constraints.
+					</p>
+				</article>
+			</div>
+		</section>
+
+		<section class="section" id="contact">
+			<article class="panel contact-card">
+				<div class="section-head">
+					<h2 class="section-title">Contact</h2>
+					<p class="section-subtitle">Open to collaboration, internships, and product-focused engineering work.</p>
+				</div>
+				<p>Email: <a href="mailto:info@wsnr.dev">info@wsnr.dev</a></p>
+				<p>GitHub: <a href="https://github.com/curryp0mmes" target="_blank" rel="noopener noreferrer">github.com/curryp0mmes</a></p>
+				<div class="contact-row">
+					<a class="btn btn-primary" href="mailto:hello@example.com">Send Mail</a>
+					<a class="btn btn-secondary" href="#top">Back to Top</a>
+				</div>
+			</article>
+		</section>
+	</main>
+
+	<footer>
+		© <span id="year"></span> Simon. Built for GitHub Pages.
+	</footer>
+
+	<script>
+		document.getElementById('year').textContent = new Date().getFullYear();
+	</script>
+</body>
+</html>
