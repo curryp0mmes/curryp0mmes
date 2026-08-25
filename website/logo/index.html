@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unofficial WüSpace Logo Generator</title>
+  <meta name="description" content="Generate, preview, customize, and export WüSpace vector logos in SVG and high-resolution PNG formats.">
+  <link rel="icon" type="image/svg+xml" href="SVG/favicon-white.svg">
+
+  <!-- Google Fonts: Chakra Petch (Semibold for titles) & Roboto (Body & UI) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- SECTION 1: 5-Column Variant Selector (Horizontal on Laptop/Desktop) -->
+    <section class="variant-selection-section" aria-label="Logo Variant Selection">
+      <div class="variant-selection-card">
+        <div class="control-card-header">
+          <h2 class="section-title">
+            <span class="step-badge">1</span>
+            Choose Logo Variant
+          </h2>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Click any variant to preview & export</span>
+        </div>
+
+        <div class="variant-selection-list">
+          <!-- 1. Main Logo (Square - Default) -->
+          <div class="variant-card active" data-variant="square">
+            <div class="variant-card-header">
+              <span class="variant-card-title">Main Logo</span>
+              <span class="variant-card-badge">Primary · 1:1</span>
+            </div>
+            <div class="variant-mini-preview"></div>
+          </div>
+
+          <!-- 2. Wide Logo -->
+          <div class="variant-card" data-variant="wide">
+            <div class="variant-card-header">
+              <span class="variant-card-title">Wide Logo</span>
+              <span class="variant-card-badge">16:9</span>
+            </div>
+            <div class="variant-mini-preview"></div>
+          </div>
+
+          <!-- 4. Lettermark -->
+          <div class="variant-card" data-variant="lettermark">
+            <div class="variant-card-header">
+              <span class="variant-card-title">Lettermark</span>
+              <span class="variant-card-badge">Wordmark</span>
+            </div>
+            <div class="variant-mini-preview"></div>
+          </div>
+
+          <!-- 5. Pride Edition -->
+          <div class="variant-card" data-variant="pride">
+            <div class="variant-card-header">
+              <span class="variant-card-title">Pride Edition</span>
+              <span class="variant-card-badge">Rainbow</span>
+            </div>
+            <div class="variant-mini-preview"></div>
+          </div>
+
+          <!-- 3. Favicon & Mark -->
+          <div class="variant-card" data-variant="favicon">
+            <div class="variant-card-header">
+              <span class="variant-card-title">Favicon & Mark</span>
+              <span class="variant-card-badge">1:1</span>
+            </div>
+            <div class="variant-mini-preview"></div>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: Main Generator Grid (Preview Stage + Studio Options) -->
+    <main class="main-generator-grid">
+
+      <!-- LEFT COLUMN: Live Logo Preview Stage -->
+      <section class="preview-stage-container" aria-label="Logo Preview">
+        <div class="stage-card">
+          <div class="stage-header">
+            <div class="stage-title-wrap">
+              <h2 class="stage-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                Live Preview
+              </h2>
+            </div>
+
+            <!-- Viewport Controls (Zoom, Grid) -->
+            <div class="stage-view-controls">
+              <button type="button" class="btn-icon-control" id="btnZoomOut" title="Zoom Out (-)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+              </button>
+              <button type="button" class="btn-icon-control" id="btnZoomReset" title="Reset Zoom (100%)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              </button>
+              <button type="button" class="btn-icon-control" id="btnZoomIn" title="Zoom In (+)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+              </button>
+              <button type="button" class="btn-icon-control" id="btnToggleGrid" title="Toggle Transparency Checkerboard">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- The Viewport Stage -->
+          <div class="preview-viewport-outer mode-white-bg" id="previewViewport">
+            <div class="logo-display-wrapper" id="logoDisplayWrapper">
+              <!-- SVG is dynamically inserted here -->
+            </div>
+          </div>
+
+          <!-- Metadata & Specifications Bar -->
+          <div class="stage-meta-footer">
+            <div class="meta-info-group">
+              <div class="meta-item">
+                <span>Dimensions:</span>
+                <strong id="metaDimensions">2048 × 2048 px</strong>
+              </div>
+              <div class="meta-item">
+                <span>Aspect:</span>
+                <strong id="metaRatio">1:1 (Square)</strong>
+              </div>
+            </div>
+            <div class="meta-info-group">
+              <div class="color-indicator-pill">
+                <span class="color-dot" id="metaBgDot" style="background-color: #1E1E2E;"></span>
+                <span id="metaBgColor">#1E1E2E (Bg 1)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions Bar Below Stage -->
+          <div class="stage-quick-actions">
+            <button type="button" class="btn-ghost-action" id="btnCopySvg" title="Copy clean SVG XML markup to clipboard">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              Copy SVG Code
+            </button>
+            <button type="button" class="btn-ghost-action" id="btnCopyPng" title="Copy PNG image blob to clipboard">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+              </svg>
+              Copy PNG Image
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT COLUMN: Options & Export Studio -->
+      <section class="controls-panel-container" aria-label="Logo Options">
+
+        <!-- 2. Toggles: Theme & Background -->
+        <div class="control-card">
+          <div class="control-card-header">
+            <h2 class="section-title">
+              <span class="step-badge">2</span>
+              Appearance & Background
+            </h2>
+          </div>
+
+          <div class="toggles-row">
+            <!-- Theme Toggle -->
+            <div class="toggle-group-block">
+              <label class="toggle-label">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                Logo Theme
+              </label>
+              <div class="segmented-control" role="radiogroup" aria-label="Logo Theme">
+                <button type="button" class="btn-segment active" data-theme-option="white" title="Dark mode logo with white elements">
+                  <span>Dark (White)</span>
+                </button>
+                <button type="button" class="btn-segment" data-theme-option="black" title="Light mode logo with black elements">
+                  <span>Light (Black)</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Background Toggle -->
+            <div class="toggle-group-block">
+              <label class="toggle-label">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                Background
+              </label>
+              <div class="segmented-control" role="radiogroup" aria-label="Background Type">
+                <button type="button" class="btn-segment active" data-bg-option="solid" title="Solid background fill (#1E1E2E for white / #FFFFFF for black)">
+                  <span>Solid Fill</span>
+                </button>
+                <button type="button" class="btn-segment" data-bg-option="transparent" title="Transparent background">
+                  <span>Transparent</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Resolution & PNG Sizing -->
+        <div class="control-card">
+          <div class="control-card-header">
+            <h2 class="section-title">
+              <span class="step-badge">3</span>
+              PNG Resolution Preset
+            </h2>
+          </div>
+
+          <div class="size-selector-block">
+            <div class="size-chips-grid" id="sizeChipsGrid">
+              <button type="button" class="btn-size-chip" data-size="512">
+                <span class="chip-dimension">512 px</span>
+                <span class="chip-label">Small / Web</span>
+              </button>
+              <button type="button" class="btn-size-chip" data-size="1024">
+                <span class="chip-dimension">1024 px</span>
+                <span class="chip-label">Medium / HD</span>
+              </button>
+              <button type="button" class="btn-size-chip active" data-size="2048">
+                <span class="chip-dimension">2048 px</span>
+                <span class="chip-label">Large / 2K</span>
+              </button>
+              <button type="button" class="btn-size-chip" data-size="4096">
+                <span class="chip-dimension">4096 px</span>
+                <span class="chip-label">Ultra / 4K</span>
+              </button>
+            </div>
+
+            <!-- Custom Size Input Row -->
+            <div class="custom-size-row">
+              <div class="custom-input-group">
+                <input type="number" id="customWidthInput" min="32" max="10000" step="10" placeholder="Width" value="2048">
+                <span class="unit">W (px)</span>
+              </div>
+              <div class="lock-ratio-indicator">
+                <button type="button" class="btn-icon-control active" id="lockRatioBtn" title="Lock Aspect Ratio">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                </button>
+              </div>
+              <div class="custom-input-group">
+                <input type="number" id="customHeightInput" min="32" max="10000" step="10" placeholder="Height" value="2048">
+                <span class="unit">H (px)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Export Buttons Center -->
+        <div class="control-card">
+          <div class="control-card-header">
+            <h2 class="section-title">
+              <span class="step-badge">4</span>
+              Export Logo
+            </h2>
+          </div>
+
+          <div class="export-buttons-group">
+            <button type="button" class="btn-primary-export" id="btnDownloadPng">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              Download PNG (2048×2048px)
+            </button>
+
+            <button type="button" class="btn-secondary-export" id="btnDownloadSvg">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                <polyline points="2 17 12 22 22 17"></polyline>
+                <polyline points="2 12 12 17 22 12"></polyline>
+              </svg>
+              Download Vector SVG
+            </button>
+          </div>
+        </div>
+
+      </section>
+    </main>
+
+    <!-- Bottom: Brand Color Palette Showcase & Inspector -->
+    <section class="brand-palette-card" aria-label="Brand Color Palette">
+      <div class="palette-header">
+        <h2 class="section-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+          </svg>
+          WüSpace Color Palette
+        </h2>
+        <p style="font-size: 0.85rem; color: var(--text-sub); margin-top: 0.25rem;">
+          Click any swatch to copy its hexadecimal color code.
+        </p>
+      </div>
+
+      <!-- Dark Mode Colors Group -->
+      <div class="palette-group" style="margin-top: 1.25rem;">
+        <h3 class="palette-group-title">Dark Mode Palette</h3>
+        <div class="palette-chips-grid">
+          <!-- 1. Background 1 -->
+          <div class="color-swatch-chip" onclick="copyColorHex('#1E1E2E', 'Dark Background 1')" title="Click to copy #1E1E2E">
+            <div class="color-sample" style="background-color: #1E1E2E;"></div>
+            <span class="color-name">Background 1</span>
+            <div class="color-hex">
+              <code>#1E1E2E</code>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </div>
+          </div>
+
+          <!-- 2. Background 2 -->
+          <div class="color-swatch-chip" onclick="copyColorHex('#182D4A', 'Dark Background 2')" title="Click to copy #182D4A">
+            <div class="color-sample" style="background-color: #182D4A;"></div>
+            <span class="color-name">Background 2</span>
+            <div class="color-hex">
+              <code>#182D4A</code>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </div>
+          </div>
+
+          <!-- 3. Signature -->
+          <div class="color-swatch-chip" onclick="copyColorHex('#603F83', 'Dark Signature')" title="Click to copy #603F83">
+            <div class="color-sample" style="background-color: #603F83;"></div>
+            <span class="color-name">Signature</span>
+            <div class="color-hex">
+              <code>#603F83</code>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </div>
+          </div>
+
+          <!-- 4. Accent 1 -->
+          <div class="color-swatch-chip" onclick="copyColorHex('#96E0ED', 'Dark Accent 1')" title="Click to copy #96E0ED">
+            <div class="color-sample" style="background-color: #96E0ED;"></div>
+            <span class="color-name">Accent 1</span>
+            <div class="color-hex">
+              <code>#96E0ED</code>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </div>
+          </div>
+
+          <!-- 5. Accent 2 -->
+          <div class="color-swatch-chip" onclick="copyColorHex('#F9A877', 'Dark Accent 2')" title="Click to copy #F9A877">
+            <div class="color-sample" style="background-color: #F9A877;"></div>
+            <span class="color-name">Accent 2</span>
+            <div class="color-hex">
+              <code>#F9A877</code>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Light Mode Colors Group -->
+      <div class="palette-group" style="margin-top: 1.5rem;">
+        <h3 class="palette-group-title">Light Mode Palette</h3>
+        <div class="palette-chips-grid">
+          <!-- 1. BG -->
+          <div class="color-swatch-chip" onclick="copyColorHex('#ffffff', 'Light BG')" title="Click to copy #ffffff">
+            <div class="color-sample" style="background-color: #ffffff;"></div>
+            <span class="color-name">White</span>
+            <div class="color-hex">
+              <code>#ffffff</code>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </div>
+          </div>
+
+          <!-- 2. BG 2 -->
+          <div class="color-swatch-chip" onclick="copyColorHex('#e6e6e6', 'Light BG 2')" title="Click to copy #e6e6e6">
+            <div class="color-sample" style="background-color: #e6e6e6;"></div>
+            <span class="color-name">Light Grey</span>
+            <div class="color-hex">
+              <code>#e6e6e6</code>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </div>
+          </div>
+
+          <!-- 3. Accent -->
+          <div class="color-swatch-chip" onclick="copyColorHex('#452897', 'Light Accent')" title="Click to copy #452897">
+            <div class="color-sample" style="background-color: #452897;"></div>
+            <span class="color-name">Signature</span>
+            <div class="color-hex">
+              <code>#452897</code>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </div>
+          </div>
+
+          <!-- 4. Highlight 1 -->
+          <div class="color-swatch-chip" onclick="copyColorHex('#cccccc', 'Highlight 1')" title="Click to copy #cccccc">
+            <div class="color-sample" style="background-color: #cccccc;"></div>
+            <span class="color-name">Dark Grey</span>
+            <div class="color-hex">
+              <code>#cccccc</code>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </div>
+          </div>
+
+          <!-- 5. Highlight 2 -->
+          <div class="color-swatch-chip" onclick="copyColorHex('#000000', 'Highlight 2')" title="Click to copy #000000">
+            <div class="color-sample" style="background-color: #000000;"></div>
+            <span class="color-name">Black</span>
+            <div class="color-hex">
+              <code>#000000</code>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div class="footer-content">
+        <div>
+          <!-- <strong>WüSpace e.V.</strong> · --> Logo Generator
+        </div>
+        <div>
+          <!-- Contribute and open PRs on
+          <a href="https://github.com/wuespace/logo-generator" target="_blank" rel="noopener noreferrer">GitHub — wuespace</a> -->
+          2026
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Toast Notification Stack -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- Scripts -->
+  <script src="js/svg-data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

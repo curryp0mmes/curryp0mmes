@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Links</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/tokens.css">
     <link rel="stylesheet" href="../css/links.css">
 </head>
@@ -22,8 +19,12 @@
             </div>
     </div>
 
+    <div class="cookie-note" id="cookie-note" role="status" aria-live="polite">
+        <span>This site uses one cookie to remember your consent choice.</span>
+        <button type="button" id="cookie-note-accept" aria-label="Accept cookies">Accept</button>
+    </div>
+
     <script>
-        // 1. YOUR ARRAY OF WEBSITES
         const myWebsites = [
             { name: "GitHub", url: "https://github.com/curryp0mmes" },
             { name: "Gitlab", url: "https://gitlab2.informatik.uni-wuerzburg.de/dashboard/projects" },
@@ -47,14 +48,12 @@
                 card.className = 'link-card';
                 card.target = "_blank";
                 card.rel = "noopener noreferrer";
-
-                // Google S2 Favicon Service
-                // Format: https://www.google.com/s2/favicons?sz=64&domain=URL
+                card.setAttribute('aria-label', site.name);
                 const iconUrl = `https://www.google.com/s2/favicons?sz=128&domain=${site.url}`;
 
                 card.innerHTML = `
                     <div class="icon-wrapper">
-                        <img src="${iconUrl}" alt="${site.name} icon">
+                        <img src="${iconUrl}" alt="${site.name} icon" loading="lazy" referrerpolicy="no-referrer">
                     </div>
                     <span>${site.name}</span>
                 `;
@@ -64,6 +63,27 @@
         }
 
         renderLinks();
+
+        const cookieNote = document.getElementById('cookie-note');
+        const acceptCookieNote = document.getElementById('cookie-note-accept');
+
+        function hasAcceptedCookies() {
+            return document.cookie.split('; ').some((entry) => entry.startsWith('cookie_consent=accepted'));
+        }
+
+        function setCookieConsent() {
+            const maxAge = 60 * 60 * 24 * 365;
+            document.cookie = `cookie_consent=accepted; path=/; max-age=${maxAge}; SameSite=Lax`;
+        }
+
+        if (!hasAcceptedCookies()) {
+            requestAnimationFrame(() => cookieNote.classList.add('is-visible'));
+        }
+
+        acceptCookieNote.addEventListener('click', () => {
+            setCookieConsent();
+            cookieNote.classList.remove('is-visible');
+        });
     </script>
 </body>
 </html>

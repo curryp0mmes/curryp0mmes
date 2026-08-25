@@ -269,6 +269,46 @@ footer {
     padding: 28px 0 36px;
 }
 
+.cookie-note {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: min(360px, calc(100% - 24px));
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(30, 41, 59, 0.94);
+    border: 1px solid rgba(148, 163, 184, 0.28);
+    color: var(--text-main);
+    font-size: 0.9rem;
+    box-shadow: var(--shadow-2);
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+.cookie-note.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.cookie-note button {
+    appearance: none;
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(56, 189, 248, 0.18);
+    color: #d9f5ff;
+    line-height: 1.2;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
 a:focus-visible,
 button:focus-visible {
     outline: none;
@@ -301,5 +341,11 @@ button:focus-visible {
 
     .panel {
         padding: 20px;
+    }
+
+    .cookie-note {
+        right: 12px;
+        left: 12px;
+        max-width: none;
     }
 }

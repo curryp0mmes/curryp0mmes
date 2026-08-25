@@ -5,9 +5,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="Portfolio of Simon, coding and hardware projects.">
 	<title>Simon | Portfolio</title>
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="./css/tokens.css">
 	<link rel="stylesheet" href="./css/portfolio.css">
 </head>
@@ -33,7 +30,6 @@
 				</p>
 				<div class="cta-row">
 					<a class="btn btn-primary" href="#projects">See Projects</a>
-					<a class="btn btn-secondary" href="./links/">Daily Links</a>
 				</div>
 			</section>
 
@@ -150,8 +146,33 @@
 		© <span id="year"></span> Simon. Built for GitHub Pages.
 	</footer>
 
+	<div class="cookie-note" id="cookie-note" role="status" aria-live="polite">
+		<span>This site uses one cookie to remember your consent choice.</span>
+		<button type="button" id="cookie-note-accept" aria-label="Accept cookies">Accept</button>
+	</div>
+
 	<script>
 		document.getElementById('year').textContent = new Date().getFullYear();
+		const cookieNote = document.getElementById('cookie-note');
+		const acceptCookieNote = document.getElementById('cookie-note-accept');
+
+		function hasAcceptedCookies() {
+			return document.cookie.split('; ').some((entry) => entry.startsWith('cookie_consent=accepted'));
+		}
+
+		function setCookieConsent() {
+			const maxAge = 60 * 60 * 24 * 365;
+			document.cookie = `cookie_consent=accepted; path=/; max-age=${maxAge}; SameSite=Lax`;
+		}
+
+		if (!hasAcceptedCookies()) {
+			requestAnimationFrame(() => cookieNote.classList.add('is-visible'));
+		}
+
+		acceptCookieNote.addEventListener('click', () => {
+			setCookieConsent();
+			cookieNote.classList.remove('is-visible');
+		});
 	</script>
 </body>
 </html>
