@@ -216,8 +216,19 @@
     if (svgCache.has(filename)) {
       return svgCache.get(filename);
     }
+
+    // 1. Check embedded SVG_DATA bundle first (instant, 0 requests, offline/GH Pages safe)
+    if (typeof window !== 'undefined' && window.SVG_DATA && window.SVG_DATA[filename]) {
+      const data = window.SVG_DATA[filename];
+      svgCache.set(filename, data);
+      return data;
+    }
+
+    // 2. Fallback to dynamic fetch with robust base URL resolution
     try {
-      const res = await fetch(`SVG/${filename}`);
+      // Resolve path relative to current HTML document or base
+      const targetUrl = new URL(`SVG/${filename}`, document.baseURI).href;
+      const res = await fetch(targetUrl);
       if (!res.ok) {
         throw new Error(`HTTP ${res.status}`);
       }
@@ -226,11 +237,6 @@
       return svgText;
     } catch (err) {
       console.error(`Failed to load SVG/${filename}:`, err);
-      if (window.location.protocol === 'file:') {
-        showToast('Local file:// access restricted. Please run via a local web server (e.g. npx serve).', '⚠️');
-      } else {
-        showToast(`Could not load ${filename}`, '⚠️');
-      }
       return null;
     }
   }
