@@ -150,12 +150,12 @@
   };
 
   // --- Initialize App ---
-  function init() {
-    setupMiniPreviews();
+  async function init() {
     renderSizeChips();
     attachEventListeners();
     updateCustomInputs();
-    render();
+    await setupMiniPreviews();
+    await render();
   }
 
   // --- Normalize variant ID ---
@@ -165,18 +165,20 @@
   }
 
   // --- Populate mini preview thumbnails on variant cards ---
-  function setupMiniPreviews() {
-    elements.variantCards.forEach((card) => {
-      const rawKey = card.getAttribute('data-variant');
-      const varKey = normalizeVariantId(rawKey);
-      const miniPreview = card.querySelector('.variant-mini-preview');
-      if (miniPreview && VARIANTS[varKey]) {
-        const rawSvg = getRawSvg(varKey, 'white');
-        if (rawSvg) {
-          miniPreview.innerHTML = rawSvg;
+  async function setupMiniPreviews() {
+    await Promise.all(
+      Array.from(elements.variantCards).map(async (card) => {
+        const rawKey = card.getAttribute('data-variant');
+        const varKey = normalizeVariantId(rawKey);
+        const miniPreview = card.querySelector('.variant-mini-preview');
+        if (miniPreview && VARIANTS[varKey]) {
+          const rawSvg = await getRawSvg(varKey, 'white');
+          if (rawSvg) {
+            miniPreview.innerHTML = rawSvg;
+          }
         }
-      }
-    });
+      })
+    );
   }
 
   // --- Render Size Preset Chips dynamically ---
@@ -207,16 +209,37 @@
     });
   }
 
-  // --- SVG Data Access ---
-  function getRawSvg(variantId, theme) {
+  // --- SVG Data Loader & Cache ---
+  const svgCache = new Map();
+
+  async function fetchSvg(filename) {
+    if (svgCache.has(filename)) {
+      return svgCache.get(filename);
+    }
+    try {
+      const res = await fetch(`SVG/${filename}`);
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
+      }
+      const svgText = await res.text();
+      svgCache.set(filename, svgText);
+      return svgText;
+    } catch (err) {
+      console.error(`Failed to load SVG/${filename}:`, err);
+      if (window.location.protocol === 'file:') {
+        showToast('Local file:// access restricted. Please run via a local web server (e.g. npx serve).', '⚠️');
+      } else {
+        showToast(`Could not load ${filename}`, '⚠️');
+      }
+      return null;
+    }
+  }
+
+  async function getRawSvg(variantId, theme) {
     const varKey = normalizeVariantId(variantId);
     const variant = VARIANTS[varKey] || VARIANTS.square;
     const filename = theme === 'white' ? variant.whiteFile : variant.blackFile;
-    if (window.SVG_DATA && window.SVG_DATA[filename]) {
-      return window.SVG_DATA[filename];
-    }
-    console.warn(`SVG data for ${filename} not found in embedded data.`);
-    return null;
+    return await fetchSvg(filename);
   }
 
   // --- Compute Export & Preview Colors ---
@@ -260,11 +283,11 @@
   }
 
   // --- Build Clean SVG String (for export or preview) ---
-  function generateSvgContent(options = {}) {
+  async function generateSvgContent(options = {}) {
     const { includeBackground = state.hasBackground } = options;
     const varKey = normalizeVariantId(state.variant);
-    const rawSvg = getRawSvg(varKey, state.theme);
-    if (!rawSvg) return '<svg><text>Error loading logo</text></svg>';
+    const rawSvg = await getRawSvg(varKey, state.theme);
+    if (!rawSvg) return '<svg viewBox="0 0 100 100"><text x="10" y="50" fill="red">Error loading logo</text></svg>';
 
     const parser = new DOMParser();
     const doc = parser.parseFromString(rawSvg, 'image/svg+xml');
@@ -315,7 +338,7 @@
   }
 
   // --- Update UI & Render Stage ---
-  function render() {
+  async function render() {
     const varKey = normalizeVariantId(state.variant);
     const variant = VARIANTS[varKey] || VARIANTS.square;
     const dims = getExportDimensions();
@@ -367,7 +390,7 @@
     }
 
     // 6. Render SVG into Viewport
-    const svgCode = generateSvgContent({ includeBackground: false });
+    const svgCode = await generateSvgContent({ includeBackground: false });
     elements.logoWrapper.innerHTML = svgCode;
     elements.logoWrapper.style.transform = `scale(${state.zoomLevel})`;
 
@@ -431,9 +454,9 @@
   }
 
   // --- SVG Export Implementation ---
-  function downloadSvg() {
+  async function downloadSvg() {
     try {
-      const fullSvg = generateSvgContent({ includeBackground: state.hasBackground });
+      const fullSvg = await generateSvgContent({ includeBackground: state.hasBackground });
       const blob = new Blob([fullSvg], { type: 'image/svg+xml;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const filename = getFilename('svg');
@@ -456,19 +479,20 @@
   // --- Copy SVG to Clipboard ---
   async function copySvgCode() {
     try {
-      const fullSvg = generateSvgContent({ includeBackground: state.hasBackground });
+      const fullSvg = await generateSvgContent({ includeBackground: state.hasBackground });
       await navigator.clipboard.writeText(fullSvg);
       showToast('SVG Markup copied to clipboard!', '📋');
     } catch (err) {
       console.error('Failed to copy SVG code:', err);
-      fallbackCopyText(generateSvgContent({ includeBackground: state.hasBackground }));
+      const fallbackSvg = await generateSvgContent({ includeBackground: state.hasBackground });
+      fallbackCopyText(fallbackSvg);
     }
   }
 
   // --- PNG Rasterization Engine ---
-  function rasterizeToCanvas(callback) {
+  async function rasterizeToCanvas(callback) {
     const dims = getExportDimensions();
-    const fullSvg = generateSvgContent({ includeBackground: false });
+    const fullSvg = await generateSvgContent({ includeBackground: false });
 
     const canvas = document.createElement('canvas');
     canvas.width = dims.width;
